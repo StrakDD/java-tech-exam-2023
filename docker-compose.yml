@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: task
+      MYSQL_ROOT_PASSWORD: rootPass
+      MYSQL_USER: test
+      MYSQL_PASSWORD: pass
+    ports:
+      - 3306:3306
+  redis:
+    image: redis:7.2.3
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+  elastic:
+    image: elasticsearch:8.11.0
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    environment:
+      xpack.security.transport.ssl.enabled: false
+      discovery.type: single-node
+      ELASTIC_PASSWORD: pass
+    ports:
+      - 9200:9200
+
+
+volumes:
+  mysql_data:
+  redis_data:
+  es_data:
