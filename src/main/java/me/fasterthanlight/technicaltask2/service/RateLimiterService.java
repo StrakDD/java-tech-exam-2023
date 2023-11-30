@@ -18,10 +18,13 @@ import static java.util.function.Function.identity;
 @Service
 public class RateLimiterService {
 
-    @Value("${api.count.limit:5}")
-    private Integer apiCountLimit;
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private final Integer apiCountLimit;
+    private final RedisTemplate<String, String> redisTemplate;
+
+    public RateLimiterService(@Value("${api.count.limit:5}") Integer apiCountLimit, @Autowired RedisTemplate<String, String> redisTemplate) {
+        this.apiCountLimit = apiCountLimit;
+        this.redisTemplate = redisTemplate;
+    }
 
     public synchronized void setApiHitCountForUser(String userId) {
         if (redisTemplate.hasKey(userId)) {
@@ -35,7 +38,7 @@ public class RateLimiterService {
         }
     }
 
-    public synchronized Map<String, String> getAllUsersHitsCount() {
+    public Map<String, String> getAllUsersHitsCount() {
         Set<String> keys = redisTemplate.keys("*");
 
         return keys.stream().collect(Collectors.toMap(identity(), key -> redisTemplate.opsForValue().get(key)));

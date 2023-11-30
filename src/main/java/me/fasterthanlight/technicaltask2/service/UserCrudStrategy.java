@@ -16,9 +16,11 @@ public class UserCrudStrategy {
     private UserJpaCrud userJpaCrud;
 
     public UserCrud getUserCrud() {
-        var hour = LocalDateTime.now().getHour();
+        LocalDateTime now = LocalDateTime.now();
+        var hour = now.getHour();
+        var minutes = now.getMinute();
 
-        return hour >= START_MYSQL_HOUR_UTC && hour <= END_MYSQL_HOUR_UTC
+        return hour >= START_MYSQL_HOUR_UTC && (hour < END_MYSQL_HOUR_UTC || (hour == END_MYSQL_HOUR_UTC && minutes == 0))
                 ? userJpaCrud : userElasticCrud;
     }
 }
