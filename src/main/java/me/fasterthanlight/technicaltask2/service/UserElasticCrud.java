@@ -55,6 +55,14 @@ public class UserElasticCrud implements UserCrud {
     }
 
     @Override
+    public User saveUser(User user) {
+        var elasticUser = userMapper.mapUserToElasticUser(user);
+        elasticUser = elasticUserRepository.save(elasticUser);
+
+        return userMapper.mapElasticUserToUser(elasticUser);
+    }
+
+    @Override
     public List<User> getAllById(Iterable<String> ids) {
         List<ElasticUser> elasticUsers = StreamSupport.stream(elasticUserRepository.findAllById(ids).spliterator(), false)
                 .toList();

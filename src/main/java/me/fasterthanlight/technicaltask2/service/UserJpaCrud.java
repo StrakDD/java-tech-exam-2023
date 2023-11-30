@@ -54,6 +54,14 @@ public class UserJpaCrud implements UserCrud {
     }
 
     @Override
+    public User saveUser(User user) {
+        var jpaUser = userMapper.mapUserToJpaUser(user);
+        jpaUser = jpaUserRepository.save(jpaUser);
+
+        return userMapper.mapJpaUserToUser(jpaUser);
+    }
+
+    @Override
     public List<User> getAllById(Iterable<String> ids) {
         List<JpaUser> jpaUsers = jpaUserRepository.findAllById(ids);
 

@@ -23,9 +23,13 @@ public interface UserMapper {
 
     User mapJpaUserToUser(JpaUser jpaUser);
 
+    JpaUser mapUserToJpaUser(User user);
+
     List<User> mapJpaUsersToUsers(List<JpaUser> jpaUsers);
 
     User mapElasticUserToUser(ElasticUser elasticUser);
+
+    ElasticUser mapUserToElasticUser(User elasticUser);
 
     List<User> mapElasticUsersToUsers(List<ElasticUser> elasticUsers);
 }

@@ -15,5 +15,7 @@ public interface UserCrud {
 
     void deleteUser(String userId);
 
+    User saveUser(User user);
+
     List<User> getAllById(Iterable<String> ids);
 }
